@@ -5,4 +5,3 @@
 ## Introduction
 
 Monitors changes to PO files during save operations in Loco Translate plugin & sync the language files.
-
