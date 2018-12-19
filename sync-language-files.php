@@ -66,13 +66,6 @@ class LocoWebhook {
 			$hash = md5_file( $this->path );
 			if ( $hash !== $this->hash ) {
 				$this->hash = $hash;
-				// -------------------------------------------
-				// FILE HAS CHANGED. WE CAN ADD SYNC CMD HERE
-				// -------------------------------------------
-				$source = WP_CONTENT_DIR . '/themes/planet4-master-theme/languages/planet4-master-theme-hi_IN.po';
-				$dest   = WP_CONTENT_DIR . '/plugins/planet4-plugin-sync-language-files/planet4-master-theme-hi_IN.po';
-
-				copy( $source, $dest );
 
 				// Get Circel CI API token from DB.
 				$settings          = get_option( 'p4_sync_ci_token' );
