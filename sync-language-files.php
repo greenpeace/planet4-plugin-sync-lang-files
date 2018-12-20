@@ -80,8 +80,8 @@ class LocoWebhook {
 	 * Hook on the loco translate save action.
 	 */
 	public static function init() {
-		if ( 'save' === sanitize_text_field( $_POST['route'] ) ) {
-			$path = WP_CONTENT_DIR . '/' . sanitize_text_field( $_POST['path'] );
+		if ( 'save' === $_POST['route'] && 0 === validate_file( $_POST['path'] ) ) {
+			$path = WP_CONTENT_DIR . '/' . $_POST['path'];
 			$inst = new LocoWebhook( $path );
 			add_action( 'loco_admin_shutdown', [ $inst, 'ping' ] );
 		}
@@ -97,7 +97,11 @@ class LocoWebhook {
 		if ( $cci_private_token ) {
 			$url        = self::CCI_AUTH_URL;
 			$auth_token = base64_encode( $cci_private_token . ':' );
-			$json       = wp_json_encode( [ 'tag' => 'lang.auto' ] );
+			$json       = wp_json_encode(
+				[
+					'tag' => 'lang.auto',
+				]
+			);
 
 			// With the safe version of wp_remote_{VERB) functions, the URL is validated to avoid redirection and request forgery attacks.
 			$response = wp_safe_remote_post(
