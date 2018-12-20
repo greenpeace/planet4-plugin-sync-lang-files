@@ -77,11 +77,11 @@ class LocoWebhook {
 	}
 
 	/**
-	 * Hook on the loca transalate save action.
+	 * Hook on the loco translate save action.
 	 */
 	public static function init() {
-		if ( 'save' === $_POST['route'] ) {
-			$path = WP_CONTENT_DIR . '/' . $_POST['path'];
+		if ( 'save' === sanitize_text_field( $_POST['route'] ) ) {
+			$path = WP_CONTENT_DIR . '/' . sanitize_text_field( $_POST['path'] );
 			$inst = new LocoWebhook( $path );
 			add_action( 'loco_admin_shutdown', [ $inst, 'ping' ] );
 		}
@@ -112,14 +112,21 @@ class LocoWebhook {
 				]
 			);
 
+			// Notify webmaster in case of language file sync fail.
+			$to      = get_option( 'admin_email' );
+			$subject = 'P4 Handbook - Sync language files failed!';
+			$headers = [ 'Content-Type: text/html; charset=UTF-8' ];
+
 			if ( is_array( $response ) && \WP_Http::OK === $response['response']['code'] && $response['body'] ) {
 				// Communication with CCI API is authenticated.
 				$body = json_decode( $response['body'], true );
-				if ( 200 !== $body['status'] || 'Build created' !== $body['body'] ) {
-					error_log( 'Planet4-Sync language files failed! Response status = ' . $body['status'] . ' - ' . $body['body'] );
+				if ( \WP_Http::OK !== $body['status'] || 'Build created' !== $body['body'] ) {
+					$body = 'URL: ' . get_site_url() . ' \nResponse status = ' . $body['status'] . ' - ' . $body['body'];
+					wp_mail( $to, $subject, $body, $headers );
 				}
 			} else {
-				error_log( 'Planet4-Sync language files failed! Response status = ' . $response['response']['code'] );
+				$body = 'URL: ' . get_site_url() . ' \nResponse status = ' . $response['response']['code'] . ' \n( Note: Please kindly check "Circle CI API token" value in "Sync Language Files Setting". )';
+				wp_mail( $to, $subject, $body, $headers );
 			}
 		}
 	}
