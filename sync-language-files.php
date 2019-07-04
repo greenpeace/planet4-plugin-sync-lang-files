@@ -99,7 +99,7 @@ class LocoWebhook {
 			$auth_token = base64_encode( $cci_private_token . ':' );
 			$json       = wp_json_encode(
 				[
-					'tag' => 'lang.master2',
+					'tag' => 'lang.master3',
 				]
 			);
 
