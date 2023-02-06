@@ -62,7 +62,7 @@ class API_Settings_Controller {
 				<tr valign="top">
 					<th><?php esc_html_e( 'Circle CI API token', 'planet4-sync-lang-files' ); ?>:</th>
 					<td>
-						<input id="p4ci_api_token" name="p4_sync_ci_token[p4ci_api_token]" value="<?php echo esc_attr( $settings['p4ci_api_token'] ); ?>" size="50" placeholder="<?php esc_html_e( 'Enter Circle CI API token', 'planet4-sync-lang-files' ); ?>" type="password" required />
+						<input id="p4ci_api_token" name="p4_sync_ci_token[p4ci_api_token]" value="<?php echo esc_attr( $settings['p4ci_api_token'] ?? '' ); ?>" size="50" placeholder="<?php esc_html_e( 'Enter Circle CI API token', 'planet4-sync-lang-files' ); ?>" type="password" required />
 					</td>
 				</tr>
 			</table>
