@@ -4,7 +4,7 @@
  * Plugin Name: Planet4 - Sync Language Files
  * Description: Monitors changes to PO files during save operations in Loco Translate plugin & sync the language files.
  * Plugin URI: http://github.com/greenpeace/planet4-plugin-sync-lang-files
- * Version: 2.2
+ * Version: 2.3
  *
  * Author: Greenpeace International
  * Author URI: http://www.greenpeace.org/
@@ -99,7 +99,7 @@ class LocoWebhook {
 			$auth_token = base64_encode( $cci_private_token . ':' );
 			$json       = wp_json_encode(
 				[
-					'tag' => 'lang.master16',
+					'tag' => 'lang.master17',
 				]
 			);
 
